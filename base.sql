@@ -62,3 +62,10 @@ create table The_cueillette (
 	foreign key(idCueilleur) references The_Cueilleur(id)
 );
 
+create table The_Culture (
+	id int primary key auto_increment,
+	idParcelle int ,
+	surface decimal(10,2),
+	dateCulture date default date(now()),
+	foreign key (idParcelle) references The_Parcelle(id)
+);
