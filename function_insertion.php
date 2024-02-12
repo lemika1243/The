@@ -43,4 +43,18 @@
 	    return "Cueilleur non inseree";
 	}
 
+	function insertCategorieDepense ($nom){
+
+		$connection = dbconnect();
+
+		$string = "insert into The_CategorieDepense (nom) values ('%s')"; 
+	    $query = sprintf($string,$nom);
+	    
+	    // echo $query;
+	    if(mysqli_query($connection, $query)){
+	    	return "Categorie depense inseree";
+	    }
+	    return "Categorie depense non inseree";
+	}
+
 ?>
