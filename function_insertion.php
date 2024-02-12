@@ -57,17 +57,18 @@
 	    return "Categorie depense non inseree";
 	}
 
-	function getTotalCueillette ($min , $max){
+	function insertSalaire ($montant,$dateSalaire){
 
 		$connection = dbconnect();
-		$dif = monthNumber($min,$max) ;
-	    $str = "select coalesce(sum(poids),0) sommeCueillette from The_cueillette ";	
-	    $resultat = mysqli_query($connection, $str);
-	    
-	    while ($res = mysqli_fetch_assoc($resultat)) {
-	    	return $dif*$res['sommeCueillette']  ;
-	    }
-		
-	}
 
+		$dateFormat = date('Y-m-d',strtotime(($dateSalaire)));
+		$string = "insert into The_Salaire (salaire,dateSalaire) values (%f, '%s')"; 
+	    $query = sprintf($string,$montant,$dateFormat);
+	    
+	    echo $query;
+	    if(mysqli_query($connection, $query)){
+	    	return "Salaire inseree";
+	    }
+	    return "Salaire non inseree";
+	}
 ?>
