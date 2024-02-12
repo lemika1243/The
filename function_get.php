@@ -26,4 +26,16 @@
 
 	}
 
+	function getTotalCueillette (){
+
+		$connection = dbconnect();
+	    $str = "select coalesce(sum(poids),0) sommeCueillette from The_cueillette ";	
+	    $resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res['sommeCueillette']  ;
+	    }
+		
+	}
+
 ?>
