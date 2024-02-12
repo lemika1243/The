@@ -14,5 +14,19 @@
 	    return "The non inseree";
 	}
 
+	
+	function insertParcelle($nom, $surface,$idThe){
+
+		$connection = dbconnect();
+		$string = "insert into The_Parcelle (nom, surface, idThe) values ('%s', %f, %d)"; 
+	    $query = sprintf($string,$nom,$surface,$idThe);
+	    
+	    // echo $query;
+	    if(mysqli_query($connection, $query)){
+	    	return "Parcelle inseree";
+	    }
+	    return "Parcelle non inseree";
+	}
+
 
 ?>
