@@ -71,4 +71,18 @@
 	    }
 	    return "Salaire non inseree";
 	}
+
+	function insertDepense($idDep, $dateDepense, $montant){
+		$connection = dbconnect();
+
+		$dateFormat = date('Y-m-d',strtotime(($dateDepense)));
+		$string = "insert into The_Depense (idDep,dateDepense,montant) values (%d, '%s',%f)"; 
+	    $query = sprintf($string,$idDep,$dateDepense,$montant);
+	    
+	    echo $query;
+	    if(mysqli_query($connection, $query)){
+	    	return "Depense inseree";
+	    }
+	    return "Depense non inseree";	
+	}
 ?>
