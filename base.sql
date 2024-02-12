@@ -49,7 +49,8 @@ create table The_Salaire(
 create table The_Login(
 	id int primary key auto_increment ,
 	email varchar(20) not null,
-	mdp varchar(100) not null
+	mdp varchar(100) not null,
+	type varchar(10)
 );
 
 create table The_cueillette (
