@@ -70,7 +70,7 @@
 	    }
 	}
 
-	
+
 	function getCueilleur(){
 		$connection = dbconnect();
 	    $str = "select * from The_Cueilleur";	// fonction temporaire prenant le salaire par date max
@@ -81,4 +81,13 @@
 	    }
 	}
 
+	function getCategorieDepense(){
+		$connection = dbconnect();
+	    $str = "select * from The_CategorieDepense";	// fonction temporaire prenant le salaire par date max
+	    $resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res  ;
+	    }
+	}
 ?>
