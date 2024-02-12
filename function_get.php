@@ -90,4 +90,39 @@
 	    	return $res  ;
 	    }
 	}
+
+	function getTotalCueilletteParcelle($min , $max,$idParcelle){
+		
+		$connection = dbconnect();
+		$dif = monthNumber($min,$max) ;
+	    $str = "select coalesce(sum(poids),0) sommeCueillette from The_cueillette where idParcelle = '$idParcelle'";	
+	    $resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $dif*$res['sommeCueillette']  ;
+	    }		
+	}
+
+
+	function getProduction($min , $max,$idParcelle){								// 
+
+		$dif = monthNumber($min,$max) ;
+
+		$connection = dbconnect();
+	    $str = "create or replace view v_TheAndCulture as select c.*, idThe, rendement from The_Culture c join The_Parcelle p on idParcelle  = p.id join The_The t on idThe = t.id where c.idParcelle = '$idParcelle' ";	
+	    $resultat = mysqli_query($connection, $str);
+		
+		$str = "select * from v_TheAndCulture ";	
+	    $resultat = mysqli_query($connection, $str);
+	    $somme = 0 ;
+
+	    //echo (count(mysqli_num_rows($resultat)));
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+
+	    	$meter = haToMeterSquare($res['surface']);
+	    	$pied = meterSquareToPied($meter);
+	    	$somme = $somme + $res['rendement']*$pied;
+	    }
+	    return  $dif*$somme ;
+	}
 ?>
