@@ -57,4 +57,17 @@
 	    return "Categorie depense non inseree";
 	}
 
+	function getTotalCueillette ($min , $max){
+
+		$connection = dbconnect();
+		$dif = monthNumber($min,$max) ;
+	    $str = "select coalesce(sum(poids),0) sommeCueillette from The_cueillette ";	
+	    $resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $dif*$res['sommeCueillette']  ;
+	    }
+		
+	}
+
 ?>
