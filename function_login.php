@@ -15,6 +15,16 @@
 	    return $res['type']."/accueil" ;
     }
 
+     function getFirstLogin($type){
 
+    	$connection = dbconnect();
+	    $str = "select * from The_Login where type='$type' ";
+	    $resultat = mysqli_query($connection, $str);
+
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res ;
+	    }
+
+    }
 
 ?>
