@@ -38,4 +38,13 @@
 		
 	}
 
+	function getParcelle(){
+		$connection = dbconnect();
+	    $str = "select * from The_Parcelle";	// fonction temporaire prenant le salaire par date max
+	    $resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res  ;
+	    }
+	}
 ?>
