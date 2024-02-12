@@ -24,7 +24,7 @@ create table The_Parcelle (
 create table The_Cueilleur (
 	id int primary key auto_increment,
 	nom varchar(50),
-	dateEmbauche date  
+	dateEmbauche date default date(now())
 );
 
 create table The_CategorieDepense (
