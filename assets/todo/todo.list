@@ -1,3 +1,43 @@
-login:
+.login:
     .Affichage:
-        .Formulaire : email(email), mot de passe(password), Se connecter(submit)
+        .[X] Formulaire : email(email), mot de passe(password), Type d'utilisateur(select),Se connecter(submit)
+
+.admin/acceuil:
+    .Affichage:
+        .[X] Liens : insertion the, insertion parcelle, insertion cueilleure, insertion categorie depense,
+                renouveler salaire
+
+.insertThe:
+    .Affichage:
+        .[X] Formulaire : Variete(text), ocupation(number), rendement(number), prix d'achat(number), prix de vente(number),
+            valider(submit)
+    
+.insertParcelle:
+    .Affichage:
+        .[] Formulaire : nom(text) , surface(number), the(select),valider(submit)
+
+.insertCueilleure:
+    .Affichage:
+        .[] Formulaire : nom(text), dateEmbauche(date),valider(submit)
+
+.insertCategorieDepense:
+    .[] Formulaire : depense(text), valider(submit)
+
+
+.updateSalaire:
+    .[] Formulaire : nom  du salaire(text),salaire(number), valider(submit)
+
+
+
+.user/acceuil:
+    .[] Poids total cueillette
+    .[] Poids restant sur les parcelles
+    .[] Cout de revient/kg
+
+.insertionCueillette:
+    .Affichage:
+        .[] Formulaire : parcelle(select), cueilleure(select), poids(number), valider(submit)
+
+.insertionDepense:
+    .Affichage:
+        .[] Formulaire : categorie depense(select), date depense(date), montant(number), valider(submit)
