@@ -2,6 +2,20 @@
 
 	include "connection.php";
 
+	function insertRegeneration($idMois){
+		$connection = dbconnect();
+		for ($i=0; $i < count($idMois); $i++) {
+			$string = "insert into The_Regeneration values ($idMois[$i])"; 
+			mysqli_query($connection, $string);
+		}
+	}
+
+	function deleteAllRegeneration(){
+		$connection = dbconnect();
+		$string = "delete from The_Regeneration"; 
+		mysqli_query($connection, $string);
+	}
+
 	function insertThe($nom, $occupation, $rendement, $prixVente, $prixAchat){
 
 		$connection = dbconnect();

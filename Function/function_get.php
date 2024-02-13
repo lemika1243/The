@@ -3,6 +3,10 @@
 	include "connection.php";
 	include "util.php";
 
+	function getMois(){
+		return array("Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout","Septembre","Octobre","Novembre","Decembre");
+	}
+
 	function getThe(){
 
 		$connection = dbconnect();

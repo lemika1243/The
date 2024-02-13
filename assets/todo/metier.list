@@ -1,0 +1,22 @@
+admin/configMois:
+    .Metier:
+        .[X] getMois()
+        .[X] insertRegeneration(mois[]) -> insert into the Regeneration table
+        .[X] deleteAllRegeneation()
+
+admin/configCueilleure:
+    .Metier:
+        .[X] getCueilleure() -> returns all the Cueilleures
+        .[] updateCueilleure(idCueilleur, poidsMinimal, salaire) -> update where idCueilleur=idCueilleur
+
+user/listPayement:
+    .Metier:
+        .[] getNbj(datemin,datemax)
+        .[] getPoidsNormal() -> getNbj()*poidsMin par Cueilleures;
+        .[] getMontantCueilleureWithBonus(datemin,datemax)->return all the Cuilleure with bonuses
+        by Cueilleures
+
+user/accueil:
+    .Metier:
+        .[] getPrixMontantVente(datemin, datemax) -> getRendement()*prixVente par the
+        .[] getTotalDepense(datemin,datemax) 
