@@ -1,0 +1,3 @@
+login:
+    .Affichage:
+        .Formulaire : email(email), mot de passe(password), Se connecter(submit)
