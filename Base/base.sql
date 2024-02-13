@@ -37,6 +37,7 @@ create table The_Depense (
 	idDep int , 
 	dateDepense date ,
 	montant decimal(10,2),
+	idThe varchar(50),
 	foreign key (idDep) references The_CategorieDepense(id)
 );
 
