@@ -13,7 +13,7 @@ user/listPayement:
     .Metier:
         .[X] getNbj(datemin,datemax)
         .[X] getPoidsNormal(datemin,datemax) -> getNbj()*poidsMin par Cueilleures;
-        .[] getMontantCueilleureWithBonus(datemin,datemax)->return all the Cuilleure with bonuses
+        .[X] getMontantCueilleureWithBonus(datemin,datemax)->return all the Cuilleure with bonuses
         by Cueilleures
 
 user/accueil:

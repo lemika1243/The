@@ -34,6 +34,17 @@
 		return $tab;
 	}
 
+	function getPrixMontantVente($datemin, $datemax){
+		$connection = dbconnect();
+	    $str = "select montantVente from montantPrixVente where dateCueillette>'$datemin' and dateCueillette<'$datemax'";
+	    $resultat = mysqli_query($connection, $str);
+	    $tab = array();
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$tab[] = $res["montantVente"];
+	    }
+		return $tab;
+	}
+
 	function getCueilleurInCueillette(){
 		$connection = dbconnect();
 	    $str = "select ct.idCueilleur,nom,salaire,bonus,mallus from The_cueillette as ct join The_Cueilleur as c on ct.idCueilleur=c.id group by ct.idCueilleur";

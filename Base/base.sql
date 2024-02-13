@@ -66,6 +66,10 @@ create table The_cueillette (
 	foreign key(idCueilleur) references The_Cueilleur(id)
 );
 
+create table The_Regeneration(
+	mois int
+);
+
 create VIEW pieds as
 select (surface*10000)/occupation as pieds,p.id as idParcelle,p.nom as parcelNom, t.id as idThe,t.nom as theNom,
 rendement from The_The as t join The_Parcelle as p on p.idThe=t.id;
@@ -73,6 +77,9 @@ rendement from The_The as t join The_Parcelle as p on p.idThe=t.id;
 create or replace view theParcelle AS
 select t.id as idThe,p.id as idParcelle,p.nom,occupation, rendement, prixVente,surface from The_The as t join The_Parcelle as p on
 p.idThe=t.id;
+
+create view montantPrixVente as
+select prixVente*((surface*10000)/occupation)*rendement as montantVente,t.id,t.nom,dateCueillette from The_cueillette join The_Parcelle as p on idParcelle=p.id join The_The as t on idThe=t.id;
 
 select sum(montant)/sum(rendement) as montant from The_Depense as d join The_The as t on t.id=d.idThe;
 
