@@ -1,7 +1,6 @@
 <?php
-    include "Function/function_insertion.php";
-    $idMois=array(1,5);
-    deleteAllRegeneration();
+    include "Function/function_get.php";
+    echo getNbj('2009-09-09', '2009-09-10');
 ?>
 <!DOCTYPE html>
 <html lang="en">

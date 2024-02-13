@@ -3,6 +3,66 @@
 	include "connection.php";
 	include "util.php";
 
+	function getNbj($datemin, $datemax){
+		$timestamp1 = strtotime($datemin);
+		$timestamp2 = strtotime($datemax);
+		$seconds_diff = $timestamp2 - $timestamp1;
+		$days_diff = floor($seconds_diff / (60 * 60 * 24));
+		return $days_diff;
+	}
+
+	function getPoidsNormal($datemin,$datemax){
+		$nbj=getNbj($datemin,$datemax);
+		$connection = dbconnect();
+	    $str = "select $nbj*poidsMinimal as poidsNormal from The_Cueilleur";
+	    $resultat = mysqli_query($connection, $str);
+	    $tab = array();
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$tab[] = $res["poidsMinimal"];
+	    }
+		return $tab;
+	}
+
+	function getPoidsReel(){
+		$connection = dbconnect();
+	    $str = "select sum(poids) as poidsNormal from The_cueillette group by idCueilleur";
+	    $resultat = mysqli_query($connection, $str);
+	    $tab = array();
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$tab[] = $res["poidsMinimal"];
+	    }
+		return $tab;
+	}
+
+	function getCueilleurInCueillette(){
+		$connection = dbconnect();
+	    $str = "select ct.idCueilleur,nom,salaire,bonus,mallus from The_cueillette as ct join The_Cueilleur as c on ct.idCueilleur=c.id group by ct.idCueilleur";
+	    $resultat = mysqli_query($connection, $str);
+	    $tab = array();
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$tab[] = array("idCueilleur"=>$res["idCueilleur"], "nom"=>$res["nom"], "salaire"=>$res["salaire"], "bonus"=>$res["bonus"],"mallus"=>$res["mallus"]);
+	    }
+		return $tab;
+	}
+
+	function getMontantCueilleureWithBonus($datemin,$datemax){
+	    $tab = array();
+		$poidsReel=getPoidsReel();
+		$poidsNormal=getPoidsNormal($datemin,$datemax);
+		$cueilleure=getCueilleurInCueillette();
+		$mpanisa=0;
+		for ($i=0; $i < count($cueilleure); $i++) { 
+			$diff=$poidsReel[$i]-$poidsNormal[$i];
+			$tab[$mpanisa]["montant"]=$cueilleure[$i]["salaire"];
+			if($diff<0){$tab[$mpanisa]["salaire"]=($cueilleure[$i]["mallus"]*($poidsReel[$i]-$poidsNormal[$i]))-$tab[$mpanisa]["salaire"];}
+			else if($diff>0){$tab[$mpanisa]["salaire"]=($cueilleure[$i]["bonus"]*($poidsReel[$i]-$poidsNormal[$i]))+$tab[$mpanisa]["salaire"];}
+			$tab[$mpanisa]["idCueilleur"]=$cueilleure[$i]["idCueilleur"];
+			$tab[$mpanisa]["nom"]=$cueilleure[$i]["nom"];
+			$mpanisa++;
+		}
+		return $tab;
+	}
+
 	function getMois(){
 		return array("Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout","Septembre","Octobre","Novembre","Decembre");
 	}

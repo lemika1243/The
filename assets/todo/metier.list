@@ -7,12 +7,12 @@ admin/configMois:
 admin/configCueilleure:
     .Metier:
         .[X] getCueilleure() -> returns all the Cueilleures
-        .[] updateCueilleure(idCueilleur, poidsMinimal, salaire) -> update where idCueilleur=idCueilleur
+        .[X] updateCueilleure(idCueilleur, poidsMinimal, salaire) -> update where idCueilleur=idCueilleur
 
 user/listPayement:
     .Metier:
-        .[] getNbj(datemin,datemax)
-        .[] getPoidsNormal() -> getNbj()*poidsMin par Cueilleures;
+        .[X] getNbj(datemin,datemax)
+        .[X] getPoidsNormal(datemin,datemax) -> getNbj()*poidsMin par Cueilleures;
         .[] getMontantCueilleureWithBonus(datemin,datemax)->return all the Cuilleure with bonuses
         by Cueilleures
 

@@ -24,6 +24,8 @@ create table The_Parcelle (
 create table The_Cueilleur (
 	id int primary key auto_increment,
 	nom varchar(50),
+	salaire real,poidsMinimal decimal(10,3),
+	mallus decimal(10,3), bonus decimal(10,3),
 	dateEmbauche date  
 );
 

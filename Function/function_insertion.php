@@ -2,6 +2,12 @@
 
 	include "connection.php";
 
+	function updateCueilleure($idCueilleur, $poidsMinimal, $salaire){
+		$connection = dbconnect();
+		$string = "update The_Cueilleur set poidsMinimal=$poidsMinimal, salaire=$salaire where id=$idCueilleur"; 
+		mysqli_query($connection, $string);
+	}
+
 	function insertRegeneration($idMois){
 		$connection = dbconnect();
 		for ($i=0; $i < count($idMois); $i++) {
