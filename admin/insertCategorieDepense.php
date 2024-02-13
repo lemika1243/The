@@ -1,3 +1,6 @@
+<?php
+    include "header.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,16 +11,16 @@
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="lienAmbony">
-        <a class="btn btn-link link" href="acceuil.php">Home</a>
-    </div>
-    <div class="form">
-        <div class="title"><h1 class="h1">Categorie depense</h1></div>
-        <form action="traitement/insertCategorieDepense.php" method="post">
-            <p>Depense : <input type="text" name="depense"></p>
-            <p><input type="submit" value="Valider"></p>
+<div class="col-12 grid-margin stretch-card">
+  <div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Inline forms</h4>
+        <form class="form-inline" action="traitement/insertCategorieDepense.php" method="post">
+            
+            <label for="inlineFormInputName2">Categorie de Depense : </label>
+            <input type="text" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" name="depense">
+            <button type="submit" class="btn btn-gradient-primary mb-2">Valider</button>
         </form>
-    </div>
-    <h2>ETU002538 ETU002747 ETU002589</h2>
-</body>
-</html>
+<?php
+    include "footer.php";
+?>

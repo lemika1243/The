@@ -1,3 +1,6 @@
+<?php
+    include "header.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,19 +11,37 @@
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="lienAmbony">
-        <a class="btn btn-info" href="acceuil.php">Home</a>
+
+<div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Formulaire d'insertion de the</h4>
+                        <form class="form-inline" action="traitement/traitementInsertThe.php" method="post">
+                            <div class="form-group mr-3 mb-2">
+                                <label for="nom" class="mr-2">variete :</label>
+                                <input type="text" class="form-control" id="nom" name="the">
+                            </div>
+                            <div class="form-group mr-3 mb-2">
+                                <label for="surface" class="mr-2">Occupation :</label>
+                                <input type="text" class="form-control" id="surface" name="occupation">
+                            </div>
+                            <div class="form-group mr-3 mb-2">
+                                <label for="surface" class="mr-2">Rendement :</label>
+                                <input type="number" class="form-control" id="surface" name="rendement">
+                            </div>
+                            <div class="form-group mr-3 mb-2">
+                                <label for="surface" class="mr-2">Pric de Vente :</label>
+                                <input type="number" class="form-control" id="surface" name="prixVente">
+                            </div>
+                            <button type="submit" class="btn btn-gradient-primary mb-2">Valider</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form">
-        <div class="title"><h1 class="h1">Insertion de the</h1></div>
-        <form action="traitement/traitementInsertThe.php" method="post">
-            <p>Variete : <input type="text" name="the"></p>
-            <p>Occupation : <input type="number" name="occupation" id=""></p>
-            <p>Rendement : <input type="number" name="rendement" id=""></p>
-            <p>Prix de vente : <input type="number" name="prixVente" id=""></p>
-            <p><input type="submit" value="Valider"></p>
-        </form>
-    </div>
-    <h2>ETU002538 ETU002747 ETU002589</h2>
-</body>
-</html>
+<?php
+    include "footer.php";
+?>

@@ -1,3 +1,6 @@
+<?php
+    include "header.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,12 +13,17 @@
 <body>
     <div class="lienAmbony">
         <a class="btn btn-info" href="../index.php">Deconnecter</a>
-        <a class="link btn btn-link" href="insertThe.php">Insertion the</a>
-        <a class="link btn btn-link" href="insertParcelle.php">InsertionParcelle</a>
-        <a class="link btn btn-link" href="insertCueilleure.php">Insertion cueilleure</a>
-        <a class="link btn btn-link" href="insertCategorieDepense.php">Insertion categorie depense</a>
-        <a class="link btn btn-link" href="insertSalaire.php">Renouveler salaire</a>
     </div>
-    <h2>ETU002538 ETU002747 ETU002589</h2>
+    <br>
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Bienvenue à Vous , les pages sont disponibles a gauches en clickant listes des pages</h4>    
+            </div>
+        </div>
+    </div>
 </body>
 </html>
+<?php
+    include "footer.php";
+?>
