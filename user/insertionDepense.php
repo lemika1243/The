@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insertion parcelle</title>
+    <title>Login</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 </head>
@@ -13,12 +13,12 @@
     </div>
     <div class="form">
         <form action="" method="post">
-            <p>Nom : <input type="text" name="nom" id=""></p>
-            <p>Surface : <input type="number" name="surface" id=""></p>
-            <p>The : <select name="the" id="">
-                <option value="">mainty</option>
-                <option value="">manga</option>
+            <p>Categorie depense : <select name="categorieDepense">
+                <option value="">Angrais</option>
+                <option value="">Essence</option>
             </select></p>
+            <p>Date du depense : <input type="date" name="dateDepense"></p>
+            <p>Montant : <input type="number" name="montant"></p>
             <p><input type="submit" value="Valider"></p>
         </form>
     </div>

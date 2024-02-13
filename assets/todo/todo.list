@@ -14,30 +14,30 @@
     
 .insertParcelle:
     .Affichage:
-        .[] Formulaire : nom(text) , surface(number), the(select),valider(submit)
+        .[X] Formulaire : nom(text) , surface(number), the(select),valider(submit)
 
 .insertCueilleure:
     .Affichage:
-        .[] Formulaire : nom(text), dateEmbauche(date),valider(submit)
+        .[X] Formulaire : nom(text), dateEmbauche(date),valider(submit)
 
 .insertCategorieDepense:
-    .[] Formulaire : depense(text), valider(submit)
+    .[X] Formulaire : depense(text), valider(submit)
 
 
 .updateSalaire:
-    .[] Formulaire : nom  du salaire(text),salaire(number), valider(submit)
+    .[X] Formulaire : salaire(number), valider(submit)
 
 
 
 .user/acceuil:
-    .[] Poids total cueillette
-    .[] Poids restant sur les parcelles
-    .[] Cout de revient/kg
+    .[X] Poids total cueillette
+    .[X] Poids restant sur les parcelles
+    .[X] Cout de revient/kg
 
 .insertionCueillette:
     .Affichage:
-        .[] Formulaire : parcelle(select), cueilleure(select), poids(number), valider(submit)
+        .[X] Formulaire : parcelle(select), cueilleure(select), poids(number), valider(submit)
 
 .insertionDepense:
     .Affichage:
-        .[] Formulaire : categorie depense(select), date depense(date), montant(number), valider(submit)
+        .[X] Formulaire : categorie depense(select), date depense(date), montant(number), valider(submit)

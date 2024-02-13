@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="lienAmbony">
-        <a class="btn btn-link" href="acceuil.php">Home</a>
+        <a class="btn btn-link link" href="acceuil.php">Home</a>
     </div>
     <div class="form">
         <div class="title"><h1 class="h1">Insertion de the</h1></div>
