@@ -1,0 +1,7 @@
+git init 
+git add .
+git commit -m 'message'
+git push
+git remote add origin https://github.com/lemika1243/The.git
+git branch
+git clone -b BackEnd origin
