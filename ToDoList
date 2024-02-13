@@ -1,3 +1,105 @@
 Integration Login
     affichage:
-        page de login:
+        -page de login:input mail,pwd select type admin/user bouton valider
+
+    function:
+        function getValue($nameInput) {
+            // Récupère les éléments input ayant le nom de l'input
+            var inputs = document.getElementsByName($nameInput);
+            
+            // Vérifie si au moins un élément a été trouvé
+            if (inputs.length > 0) {
+                // Accède à la valeur du premier élément trouvé
+                var value = inputs[0].value;
+                alert("La valeur de l'input est : " + value);
+            } else {
+                alert("Aucun input avec le nom 'myInput' trouvé.");
+
+
+    traitement:
+        -check if mail or pwd or type null
+        -$type = getType(mail,pwd)
+        -if($type!=null && $type!='')=null header('Location:'.$type."/accueille.php")
+        -else header('Location:login.php?erreurs=')
+        -ajax =  getena ny valeur anle select type (getElementsByName)
+            getfirstLogin(type)
+            if      (mail==null || pwd==null) printena ery ambony fa null le mail na pwd
+            if      (type==admin) printena ze admin voalohany
+            else if (type==user) printena ze user voalohany
+
+
+
+
+
+
+
+
+.admin/insertThe:
+    .Intagration :
+        .[X] the form action goes to traitement/insertThe.php
+        .[X] get All the information from post : (the,occupation,rendement,prixAchat,prixVente)
+        .[X] Use the function insertThe(the,occupation,rendement,prixAchat,prixVente)
+        .[X] If the insert is good -> returns to admin/acceuil.php
+        .[X] else it returns an error("l'insertion a rencontre un probleme") to the redirect -> insertThe.php
+
+.admin/insertParcelle:
+    .Intagration :
+        .[X] the form action goes to traitement/insertParcelle.php
+        .[X] complete in the database the the(select) in the form using the function getThe(db)
+        .[X] get All the information from post : (nom,surface,the)
+        .[X] Use the function insertParcelle(the,occupation,rendement,prixAchat,prixVente)
+        .[X] If the insert is good -> returns to admin/acceuil.php
+        .[X] else it returns an error("l'insertion a rencontre un probleme") to the redirect -> insertParcelle.php
+
+.admin/insertCueilleure:
+    .Intagration :
+        .[X] the form action goes to traitement/insertCueilleure.php
+        .[X] get All the information from post : (nom)
+        .[X] Use the function insertCueilleure(nom, date.now)
+        .[X] If the insert is good -> returns to admin/acceuil.php
+        .[X] else it returns an error("l'insertion a rencontre un probleme") to the redirect -> insertCueilleure.php
+
+.admin/insertCategorieDepense:
+    .Integration :
+        .[X] the form action goes to traitement/insertCategorieDepense.php
+        .[X] get All the information from post : (depense)
+        .[X] Use the function insertCategorieDepense(depense)
+        .[X] If the insert is good -> returns to admin/acceuil.php
+        .[X] else it returns an error("l'insertion a rencontre un probleme") to the redirect -> insertCategorieDepense.php
+
+.admin/insertSalaire:
+    .Integration :
+        .[X] the form action goes to traitement/insertSalaire.php
+        .[X] get All the information from post : (salaire)
+        .[X] Use the function insertSalaire(depense)
+        .[X] If the insert is good -> returns to admin/acceuil.php
+        .[X] else it returns an error("l'insertion a rencontre un probleme") to the redirect -> insertSalaire.php
+
+
+
+.user/insertionCueillette:
+    .Intagration :
+        .[X] complete in the database the parcelle(select) in the form using the function getParcelle(db)
+        .[X] complete in the database the cueilleure(select) in the form using the function getCueilleure(db)
+        .[X] the form action goes to traitement/insertionCueillette.php
+        .[X] get All the information from post : (parcelle, cueilleure , dateCueillette , poids)
+        .[X] Use the function insertionCueillette(parcelle, cueilleure)
+        .[X] If the insert is good -> returns to user/acceuil.php
+        .[X] else it returns an error("l'insertion a rencontre un probleme") to the redirect -> insertionCueillette.php
+
+.user/insertionDepense:
+    .Intagration :
+        .[] complete in the database the categorie(select) in the form using the function getCategorie(db)
+        .[] complete in the database the the(select) in the form using the function getThe(db)
+        .[] the form action goes to traitement/insertionDepense.php
+        .[] get All the information from post : (categorie,the,dataDepense, montant)
+        .[] Use the function insertionDepense(categorie,the,dataDepense, montant)
+        .[] If the insert is good -> returns to user/acceuil.php
+        .[] else it returns an error("l'insertion a rencontre un probleme") to the redirect -> insertionDepense.php
+
+.user/acceuil:
+    .Intagration :
+        .[] get the values of the input:(dateDebut, dateFin)
+        .[] use function getTotalCueillette(dateDebut,dateFin)
+        .[] use function get?
+        .[] use functino get?
