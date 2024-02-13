@@ -1,4 +1,5 @@
 <?php
+    include "header.php";
     include "../Function/function_get.php";
     $poidsTotal=getPoidsTotal();
     $poidsRestant=getPoidsRestant();
@@ -13,16 +14,13 @@
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="lienAmbony">
-        <a class="btn btn-info" href="insertionCueillette.php">Insertion Cueillette</a>
-        <a class="link btn btn-link" href="insertionDepense.php">Insertion Depense</a>
-    </div>
     <p>Poids total cueillette : <?= $poidsTotal ?></p>
     <?php for ($i=0; $i < count($poidsRestant); $i++) { ?>
         <p>Nom du parcel : <?= $poidsRestant[$i]['parcelNom'] ?></p>
         <p>Poids restant : <?= $poidsRestant[$i]['poidsRestant'] ?></p>
     <?php } ?>
     <p>Cout de revient/kg : <?= getCoutRevient() ?></p>
-    <h2>ETU002538 ETU002747 ETU002589</h2>
-</body>
-</html>
+
+<?php
+    include "footer.php";
+?>

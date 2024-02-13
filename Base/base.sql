@@ -7,7 +7,6 @@ create table The_The(
 	nom varchar(50) not null,
 	occupation decimal(10,3),
 	rendement decimal(10,3),
-	prixAchat decimal(10,3),
 	prixVente decimal(10,3)
 );
 
@@ -24,8 +23,6 @@ create table The_Parcelle (
 create table The_Cueilleur (
 	id int primary key auto_increment,
 	nom varchar(50),
-	salaire real,poidsMinimal decimal(10,3),
-	mallus decimal(10,3), bonus decimal(10,3),
 	dateEmbauche date  
 );
 
@@ -39,7 +36,6 @@ create table The_Depense (
 	idDep int , 
 	dateDepense date ,
 	montant decimal(10,2),
-	idThe varchar(50),
 	foreign key (idDep) references The_CategorieDepense(id)
 );
 
@@ -66,20 +62,13 @@ create table The_cueillette (
 	foreign key(idCueilleur) references The_Cueilleur(id)
 );
 
-create table The_Regeneration(
-	mois int
-);
-
-create VIEW pieds as
+create or replace VIEW pieds as
 select (surface*10000)/occupation as pieds,p.id as idParcelle,p.nom as parcelNom, t.id as idThe,t.nom as theNom,
-rendement from The_The as t join The_Parcelle as p on p.idThe=t.id;
+rendement,surface from The_The as t join The_Parcelle as p on p.idThe=t.id;
 
 create or replace view theParcelle AS
 select t.id as idThe,p.id as idParcelle,p.nom,occupation, rendement, prixVente,surface from The_The as t join The_Parcelle as p on
 p.idThe=t.id;
-
-create view montantPrixVente as
-select prixVente*((surface*10000)/occupation)*rendement as montantVente,t.id,t.nom,dateCueillette from The_cueillette join The_Parcelle as p on idParcelle=p.id join The_The as t on idThe=t.id;
 
 select sum(montant)/sum(rendement) as montant from The_Depense as d join The_The as t on t.id=d.idThe;
 

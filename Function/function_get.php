@@ -3,6 +3,71 @@
 	include "connection.php";
 	include "util.php";
 
+	function getDiffMois($min, $max, $tab){
+
+		$inclus = 0 ;
+		$difference = monthNumber($min,$max);
+
+		$month = date("m",strtotime($min));
+
+		for($i = 0 ; $i<$difference; $i++){
+			$realMonth = $month+$i ;
+			if (in_array($realMonth%12,$tab)) {
+				$inclus = $inclus + 1 ;
+			}
+		}
+		return $inclus ;
+	}
+
+	function getSommeCueillette($max){
+		
+		$connection = dbconnect();
+		$str = "create or replace view v_Cueillette as select coalesce(sum(poids),0) as sommeCueillette, idParcelle from The_cueillette where dateCueillette between '01-01-23' and '$max' group by idParcelle";
+
+		$resultat = mysqli_query($connection, $str);
+
+		$str = "select * from v_Cueillette ";
+		$resultat = mysqli_query($connection, $str);
+	    
+	    $somme = 0 ;
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$somme = $somme + $res['sommeCueillette'] ;
+	    }
+		return $somme;
+
+	}
+
+	function getSommeRestant($max, $tab){
+
+		$cueilli = getSommeCueillette($max);
+		$connection = dbconnect();
+
+		$difMonth = getDiffMois('2023-01-01',$max,$tab);
+
+		$str = "select pieds*rendement as rdn from pieds";
+
+		$resultat = mysqli_query($connection, $str);
+	    
+	    $sommeAccumulee = 0 ;
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$sommeAccumulee = $sommeAccumulee + $res['rdn'] ;
+	    }
+	    return $difMonth*$sommeAccumulee - $cueilli ; 
+	}
+
+	function getCueilleurById($id ){
+		$connection = dbconnect();
+	    $str = "select * from The_Cueilleur where id = '$id'";	// fonction temporaire prenant le salaire par date max
+	    $resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res;
+	    }
+		
+	}
+
 	function getNbj($datemin, $datemax){
 		$timestamp1 = strtotime($datemin);
 		$timestamp2 = strtotime($datemax);
@@ -30,17 +95,6 @@
 	    $tab = array();
 	    while ($res = mysqli_fetch_assoc($resultat)) {
 	    	$tab[] = $res["poidsMinimal"];
-	    }
-		return $tab;
-	}
-
-	function getPrixMontantVente($datemin, $datemax){
-		$connection = dbconnect();
-	    $str = "select montantVente from montantPrixVente where dateCueillette>'$datemin' and dateCueillette<'$datemax'";
-	    $resultat = mysqli_query($connection, $str);
-	    $tab = array();
-	    while ($res = mysqli_fetch_assoc($resultat)) {
-	    	$tab[] = $res["montantVente"];
 	    }
 		return $tab;
 	}
@@ -76,6 +130,18 @@
 
 	function getMois(){
 		return array("Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout","Septembre","Octobre","Novembre","Decembre");
+	}
+
+	function getTheById($id){
+
+		$connection = dbconnect();
+	    $str = "select * from The_The where id = '$id'";
+	    $resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res  ;
+	    }
+		
 	}
 
 	function getThe(){
@@ -211,6 +277,17 @@
 		return $categorie;
 	}
 
+	function getMoisRegeneration(){
+		$connection = dbconnect();
+	    $str = "select * from The_Regeneration";	// fonction temporaire prenant le salaire par date max
+	    $resultat = mysqli_query($connection, $str);
+	    $tab=array();
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$tab[] = $res["mois"];
+	    }
+		return $tab;
+	}
+
 	function getPoidsTotal(){
 		$connection = dbconnect();
 	    $str = "select coalesce(sum(poids),0) sommeCueillette from The_cueillette";	
@@ -269,9 +346,20 @@
 		$resultat = mysqli_query($connection, $query);
 		$array = array();
 		while ($res = mysqli_fetch_assoc($resultat)) {
-			$array[]=$res;
+			$array=array("rendement"=>$res['rendement'],"id"=>$res['id']);
 		}
 		return $array;
+	}
+
+	function getPoidsTotalCultive($datemin,$datemax,$idParcelle){
+		$regeneration=getMoisRegeneration();
+		$nbmois=getDiffMois($datemin,$datemax,$regeneration);
+		$poids=getRendementParcelle();
+		$poidsCultive = 0;
+		for ($i=0; $i < count($poids); $i++) {
+			if($poids["id"]==$idParcelle) {return $poids["rendement"]*$nbmois;}
+		}
+		return 100000000;
 	}
 
 	function sumRendement(){
@@ -284,6 +372,109 @@
 	}
 
 	function getCoutrevient(){
-		return sumDepense()['montant']/sumRendement();
+		$rendements=sumRendement();
+		if($rendements==0) return 0;
+		return sumDepense()['montant']/$rendements;
+	}
+
+	function listePay($min,$max){
+		$tab=getMoisRegeneration();
+		$connection = dbconnect();
+		$monthDiff = getDiffMois($min,$max,$tab);
+		$str = "select nom, poidsMinimal , salaire,sum(poids) as sommeCueilli, bonus, mallus from The_Cueilleur Cu left join The_cueillette Cl on Cl.idCueilleur = Cu.id";
+		$resultat = mysqli_query($connection, $str);
+	    $tab = array() ;
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	$tem['nom'] = $res['nom'] ; $tem['sommeCueilli'] = $res['sommeCueilli'] ; 
+	    	$tem['bonus'] = 0 ; $tem['mallus'] = 0 ;
+
+	    	if ($tem['sommeCueilli']<$res['poidsMinimal']*$monthDiff) {
+	    	 	$tem['minus'] = (($res['poidsMinimal']*$monthDiff)-$tem['sommeCueilli'])*$res['mallus'];
+	    	 } 
+	    	if ($tem['sommeCueilli']>$res['poidsMinimal']*$monthDiff) {
+	    		$tem['bonus'] = ($tem['sommeCueilli']+($res['poidsMinimal']*$monthDiff))*$res['bonus'];
+	    	}
+
+	    	$tem['paiement'] = $monthDiff*$res['salaire'] + $tem['bonus'] - $tem['mallus'];
+	    	$tab[] = $tem ;
+	    }
+		return $tab;
+
+	}	
+
+	function getParcelleByPieds(){
+		$connection = dbconnect();
+		$query= "select * from pieds";
+		$resultat = mysqli_query($connection, $query);
+		$array = array();
+		while ($res = mysqli_fetch_assoc($resultat)) {
+			$array[]=$res;
+		}
+		return $array;
+	}
+
+	function salairePayer ($min, $max){
+		$tab=getMoisRegeneration();
+		$connection = dbconnect();
+		$monthDiff = getDiffMois($min,$max,$tab);
+
+		$somme = 0 ;
+
+		$str = "select nom, poidsMinimal , salaire,sum(poids) as sommeCueilli, bonus, mallus from The_Cueilleur Cu left join The_cueillette Cl on Cl.idCueilleur = Cu.id";
+		$resultat = mysqli_query($connection, $str);
+	    
+	   
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	
+	    	$tem['nom'] = $res['nom'] ; $tem['sommeCueilli'] = $res['sommeCueilli'] ; 
+	    	$tem['bonus'] = 0 ; $tem['mallus'] = 0 ;
+
+	    	if ($tem['sommeCueilli']<$res['poidsMinimal']*$monthDiff) {
+	    	 	$tem['minus'] = (($res['poidsMinimal']*$monthDiff)-$tem['sommeCueilli'])*$res['mallus'];
+	    	 } 
+	    	if ($tem['sommeCueilli']>$res['poidsMinimal']*$monthDiff) {
+	    		$tem['bonus'] = ($tem['sommeCueilli']+($res['poidsMinimal']*$monthDiff))*$res['bonus'];
+	    	}
+
+	    	$somme  = $somme + ($monthDiff*$res['salaire'] + $tem['bonus'] - $tem['mallus']);
+	    }
+		return $somme;
+
+	}	
+
+	function sommeDepense ($min, $max){
+
+		$connection = dbconnect();
+		$str = "select coalesce(sum(montant),0) as dep from The_Depense where dateDepense between '$min' and '$max'";
+
+		$resultat = mysqli_query($connection, $str);
+	    
+	    while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res['dep'];
+	    }
+	    
+	}
+
+	function getAllDep ($min , $max){				// A appeler pour avoir les depenses entieres
+		return sommeDepense($min,$max)+salairePayer($min,$max);
+	}
+
+	function getVente($min, $max){
+
+		$connection = dbconnect();
+		$str = "create or replace view montantPrixVente as select sum(prixVente*((surface*10000)/occupation)*rendement) as montantVente,t.id,t.nom, dateCueillette from The_cueillette join The_Parcelle as p on idParcelle=p.id join The_The as t on idThe=t.id where dateCueillette between '$min' and '$max' ";
+
+		$resultat = mysqli_query($connection, $str);
+
+		$str = "select * from montantPrixVente ";
+		$resultat = mysqli_query($connection, $str);
+		while ($res = mysqli_fetch_assoc($resultat)) {
+	    	return $res['montantVente'];
+	    }
+	}
+
+	function getDep($vente, $dep){
+		return $vente - $dep ;
 	}
 ?>

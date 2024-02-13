@@ -5,5 +5,5 @@
     $dateCueillette = $_POST['dateCueillette']; 
     $poids = $_POST['poids'];
     insertCueillette($idParcelle, $cueilleure , $dateCueillette , $poids);
-    header('Location:../insertCategorieDepense.php');
+    header('Location:../insertionCueillette.php');
 ?>

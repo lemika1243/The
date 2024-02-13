@@ -1,10 +1,16 @@
 <?php
-
 	include "connection.php";
 
-	function updateCueilleure($idCueilleur, $poidsMinimal, $salaire){
+	function updateCueilleur($idCueilleur, $poidsMinimal, $salaire,$bonus,$mallus){
 		$connection = dbconnect();
-		$string = "update The_Cueilleur set poidsMinimal=$poidsMinimal, salaire=$salaire where id=$idCueilleur"; 
+		$string = "update The_Cueilleur set poidsMinimal=$poidsMinimal, salaire=$salaire,bonus=$bonus,mallus=$mallus where id=$idCueilleur";
+		echo $string;
+		mysqli_query($connection, $string);
+	}
+
+	function updateThe($idThe, $prix){
+		$connection = dbconnect();
+		$string = "update The_The set prixVente=$prix where id=$idThe";
 		mysqli_query($connection, $string);
 	}
 
@@ -22,11 +28,11 @@
 		mysqli_query($connection, $string);
 	}
 
-	function insertThe($nom, $occupation, $rendement, $prixVente, $prixAchat){
+	function insertThe($nom, $occupation, $rendement, $prixVente){
 
 		$connection = dbconnect();
-		$string = "insert into The_The (nom, occupation,rendement, prixVente, prixAchat) values ('%s', %f, %f, %f,%f)"; 
-	    $query = sprintf($string,$nom, $occupation, $rendement, $prixVente, $prixAchat);
+		$string = "insert into The_The (nom, occupation,rendement, prixVente) values ('%s', %f, %f, %f)"; 
+	    $query = sprintf($string,$nom, $occupation, $rendement, $prixVente);
 	    
 	    // echo $query;
 	    if(mysqli_query($connection, $query)){
@@ -49,13 +55,13 @@
 	    return "Parcelle non inseree";
 	}
 
-	function insertCueilleur ($nom,$dateEmbauche){
+	function insertCueilleur ($nom,$today,$salaire,$poidsMinimal,$mallus,$bonus){
 
 		$connection = dbconnect();
 
 		$dateFormat = date('Y-m-d',strtotime(($dateEmbauche)));
-		$string = "insert into The_Cueilleur (nom,dateEmbauche) values ('%s', '%s')"; 
-	    $query = sprintf($string,$nom,$dateFormat);
+		$string = "insert into The_Cueilleur (nom,dateEmbauche,salaire,poidsMinimal,mallus,bonus) values ('%s', '%s', %d, %d, %d, %d)"; 
+	    $query = sprintf($string,$nom,$dateFormat,$salaire,$poidsMinimal,$mallus,$bonus);
 	    
 	    // echo $query;
 	    if(mysqli_query($connection, $query)){

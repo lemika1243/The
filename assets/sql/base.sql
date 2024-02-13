@@ -24,9 +24,7 @@ create table The_Parcelle (
 create table The_Cueilleur (
 	id int primary key auto_increment,
 	nom varchar(50),
-	poidsMinimal decimal(10,3),
-	salaire real,
-	dateEmbauche date
+	dateEmbauche date  
 );
 
 create table The_CategorieDepense (
@@ -71,8 +69,4 @@ create table The_Culture (
 	surface decimal(10,2),
 	dateCulture date default date(now()),
 	foreign key (idParcelle) references The_Parcelle(id)
-);
-
-create table The_Regeneration(
-	mois int
 );
